@@ -2,7 +2,7 @@ from typing import Optional
 
 from fastapi import Body, FastAPI, Path, Query
 
-from models import Person
+from models import Location, Person
 
 app = FastAPI()
 
@@ -50,3 +50,20 @@ def show_person(
     )
 ):
     return {person_id: "It exists"}
+
+
+# Validations: Request body
+@app.put("/person/{person_id}")
+def update_person(
+    person_id: int = Path(
+        ...,
+        gt=0,
+        title="Person ID",
+        description="This is the person ID.",
+    ),
+    person: Person = Body(...),
+    location: Location = Body(...),
+):
+    result = dict(person)
+    result.update(dict(location))
+    return result

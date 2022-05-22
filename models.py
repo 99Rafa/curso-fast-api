@@ -9,3 +9,9 @@ class Person(BaseModel):
     age: int
     hair_color: Optional[str] = None
     is_married: Optional[bool] = None
+
+
+class Location(BaseModel):
+    city: str
+    state: str
+    country: str
