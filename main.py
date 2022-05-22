@@ -28,12 +28,14 @@ def show_person(
         max_length=50,
         title="Person name",
         description="This is the person name, it's between 1 and 50 characters",
+        example=1,
     ),
     age: int = Query(
         # This makes age obligatory which is not a recommended practice
         ...,
         title="Person age",
         description="This is the person age, it's required",
+        example=18,
     ),
 ):
     return {name: age}
@@ -47,6 +49,7 @@ def show_person(
         gt=0,
         title="Person id",
         description="This is the person id.",
+        example=1,
     )
 ):
     return {person_id: "It exists"}
@@ -60,6 +63,7 @@ def update_person(
         gt=0,
         title="Person ID",
         description="This is the person ID.",
+        example=1,
     ),
     person: Person = Body(...),
     location: Location = Body(...),
