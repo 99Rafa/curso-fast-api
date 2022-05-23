@@ -2,7 +2,8 @@ from typing import Optional
 
 from fastapi import Body, FastAPI, Path, Query
 
-from models import Location, Person
+from models.location_models import Location
+from models.person_models import *
 
 app = FastAPI()
 
@@ -13,9 +14,12 @@ def home():
 
 
 # Request and response body
-@app.post("/person/new")
-def create_person(person: Person = Body(...)):
-    person
+@app.post(
+    "/person/new",
+    response_model=Person,
+    # response_model_exclude=["password"],
+)
+def create_person(person: CreatePersonRequest = Body(...)):
     return person
 
 

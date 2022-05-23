@@ -1,3 +1,4 @@
+from asyncio.base_subprocess import BaseSubprocessTransport
 from typing import Optional
 
 from pydantic import BaseModel, Field
@@ -24,7 +25,17 @@ class Person(BaseModel):
         }
 
 
-class Location(BaseModel):
-    city: str = Field(..., example="Mexico city")
-    state: str = Field(..., example="Mexico")
-    country: str = Field(..., example="Mexico")
+class CreatePersonRequest(Person):
+    password: str = Field(..., min_length=8)
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "first_name": "Rafael",
+                "last_name": "Aguirre",
+                "age": 22,
+                "hair_color": "black",
+                "is_married": False,
+                "password": "12345678",
+            }
+        }
