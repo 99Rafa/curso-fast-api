@@ -1,8 +1,9 @@
 from typing import Optional
 
-from fastapi import Body, FastAPI, Path, Query, status
+from fastapi import Body, FastAPI, Form, Path, Query, status
 
 from models.location_models import Location
+from models.login_models import LoginResponse
 from models.person_models import *
 
 app = FastAPI()
@@ -88,3 +89,15 @@ def update_person(
     result = dict(person)
     result.update(dict(location))
     return result
+
+
+@app.post(
+    path="/login",
+    response_model=LoginResponse,
+    status_code=status.HTTP_200_OK,
+)
+def login(
+    username: str = Form(...),
+    password: str = Form(...),
+):
+    return LoginResponse(username=username)
