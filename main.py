@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import Body, FastAPI, Path, Query
+from fastapi import Body, FastAPI, Path, Query, status
 
 from models.location_models import Location
 from models.person_models import *
@@ -8,23 +8,30 @@ from models.person_models import *
 app = FastAPI()
 
 
-@app.get("/")
+@app.get(
+    path="/",
+    status_code=status.HTTP_200_OK,
+)
 def home():
     return {"Hello": "World"}
 
 
 # Request and response body
 @app.post(
-    "/person/new",
+    path="/person/new",
     response_model=Person,
     # response_model_exclude=["password"],
+    status_code=status.HTTP_201_CREATED,
 )
 def create_person(person: CreatePersonRequest = Body(...)):
     return person
 
 
 # Validations: Query parameters
-@app.get("/person/detail")
+@app.get(
+    path="/person/detail",
+    status_code=status.HTTP_200_OK,
+)
 def show_person(
     name: Optional[str] = Query(
         default=None,
@@ -46,7 +53,10 @@ def show_person(
 
 
 # Validations: Path parameters
-@app.get("/person/detail/{person_id}")
+@app.get(
+    path="/person/detail/{person_id}",
+    status_code=status.HTTP_200_OK,
+)
 def show_person(
     person_id: int = Path(
         ...,
@@ -60,7 +70,10 @@ def show_person(
 
 
 # Validations: Request body
-@app.put("/person/{person_id}")
+@app.put(
+    path="/person/{person_id}",
+    status_code=status.HTTP_200_OK,
+)
 def update_person(
     person_id: int = Path(
         ...,
