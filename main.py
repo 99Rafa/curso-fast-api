@@ -1,6 +1,17 @@
 from typing import Optional
 
-from fastapi import Body, Cookie, FastAPI, Form, Header, Path, Query, status
+from fastapi import (
+    Body,
+    Cookie,
+    FastAPI,
+    File,
+    Form,
+    Header,
+    Path,
+    Query,
+    UploadFile,
+    status,
+)
 from pydantic import EmailStr
 
 from models.location_models import Location
@@ -136,3 +147,15 @@ def contact(
     ads: Optional[str] = Cookie(default=None),
 ):
     return user_agent
+
+
+# Files
+@app.post(
+    path="/post-image",
+)
+def post_image(image: UploadFile = File(...)):
+    return {
+        "Filename": image.filename,
+        "Format": image.content_type,
+        "Size(kb)": round(len(image.file.read()) / 1024, ndigits=2),
+    }
