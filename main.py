@@ -37,8 +37,21 @@ def home():
     # response_model_exclude=["password"],
     status_code=status.HTTP_201_CREATED,
     tags=["Persons"],
+    summary="Create person in the app",
 )
 def create_person(person: CreatePersonRequest = Body(...)):
+    """Create person
+
+    Creates a person in the app and save the information in the database
+
+    Parameters:
+        Request body parameter:
+            **person: Person** -> A person model
+            with first name, last name, age, hair color and marital status
+
+    Returns:
+        Person model with first name, last name, age, hair color and marital status
+    """
     return person
 
 
